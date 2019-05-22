@@ -1,5 +1,6 @@
 import wollok.game.*
 import animales.*
+import comedero.*
 
 program animales {
 	// configuracion de pantalla
@@ -9,10 +10,14 @@ program animales {
 	/*
 	 * agregamos personajes
 	 */ 
+	var comedero1 = new Comedero(pesoMaximo = 150)
+	var comedero2 = new Comedero(position = game.at(2,2), pesoMaximo = 2)
 	var gallina = new Gallina()
 	var vaca = new Vaca()
 	var animalActual = gallina
 	game.addVisual(animalActual)
+	game.addVisual(comedero1)
+	game.addVisual(comedero2)
 	/*
 	 * configuraciones de teclado
 	 */
@@ -32,16 +37,16 @@ program animales {
 	//moverse
 	
 	keyboard.up().onPressDo {
-		animalActual.position( animalActual.position().up(1) )
+		animalActual.subir()
 	}
 	keyboard.down().onPressDo {
-		animalActual.position( animalActual.position().down(1) )
+		animalActual.bajar()
 	}
 	keyboard.left().onPressDo {
-		animalActual.position( animalActual.position().left(1) )
+		animalActual.izquierda()
 	}
 	keyboard.right().onPressDo {
-		animalActual.position( animalActual.position().right(1) )
+		animalActual.derecha()
 	}
 	
 	//transformacion
@@ -55,6 +60,39 @@ program animales {
 		}
 		game.addVisual(animalActual)
 	}
+	
+	//colisiones
+	
+	game.whenCollideDo(comedero1, { animal =>
+		animal.bajar()
+		if( comedero1.puedeAtender(animal) ) {
+			if(comedero1.cantRaciones() == 0){
+				game.say(comedero1,"No tenemos mas raciones de comida.")
+			}
+			else{
+				comedero1.atender(animal)
+				game.say(animal, "Gracias por la comida.")
+			}
+		}else{
+			game.say(comedero1,"No te puedo atender.")
+		}
+	})
+	
+	game.whenCollideDo(comedero2, { animal =>
+		animal.bajar()
+		if( comedero2.puedeAtender(animal) ) {
+			if(comedero2.cantRaciones() == 0){
+				game.say(comedero2,"No tenemos mas raciones de comida.")
+			}
+			else{
+				comedero2.atender(animal)
+				game.say(animal, "Gracias por la comida.")
+			}
+		}else{
+			game.say(comedero2,"No te puedo atender.")
+		}
+	})
+	
 	
 	/*
 	 * arrancamos el juego

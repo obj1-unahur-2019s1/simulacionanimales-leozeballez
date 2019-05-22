@@ -2,10 +2,9 @@ import wollok.game.*
 
 class Vaca {
 	var property position = game.at(3,5)
-	const property image = "granVaca.jpg"
+	const property image = "vaca.gif"
 	var property peso = 100
 	var property tieneSed = false
-	//var property tieneHambre = false
 	
 	method tieneHambre() = return self.peso()<200
 	
@@ -23,46 +22,46 @@ class Vaca {
 		peso -= 1
 	}
 	
-	method moverAbajo(){
-		if(peso==50){
+	method bajar(){
+		if(peso<=50){
 			self.error("No tengo peso suficiente para moverme.")
 		}else{
-			self.position().down(1)
-			peso *= 0.95
+			self.position(self.position().down(1))
+			peso = 50.max(peso * 0.95)
 		}
 	}
 	
-	method moverArriba(){
-		if(peso==50){
+	method subir(){
+		if(peso<=50){
 			self.error("No tengo peso suficiente para moverme.")
 		}else{
-			self.position().up(1)
-			peso *= 0.95
+			self.position(self.position().up(1))
+			peso = 50.max(peso * 0.95)
 		}
 	}
 	
-	method moverIzquierda(){
-		if(peso==50){
+	method izquierda(){
+		if(peso<=50){
 			self.error("No tengo peso suficiente para moverme.")
 		}else{
-			self.position().left(1)
-			peso *= 0.95
+			self.position(self.position().left(1))
+			peso = 50.max(peso * 0.95)
 		}
 	}
 	
-	method moverDerecha(){
-		if(peso==50){
+	method derecha(){
+		if(peso<=50){
 			self.error("No tengo peso suficiente para moverme.")
 		}else{
-			self.position().right(1)
-			peso *= 0.95
+			self.position(self.position().right(1))
+			peso = 50.max(peso * 0.95)
 		}
 	}
 }
 
 class Gallina {
-	var property position = game.at(0,0)
-	const property image = "granGallina.jpg"
+	var property position = game.at(3,5)
+	const property image = "gallina.gif"
 	var property peso = 4
 	var property tieneSed = false
 	var vecesComio = 0
@@ -78,20 +77,20 @@ class Gallina {
 	
 	method tieneHambre() { return vecesComio %2 == 0}
 	
-	method moverAbajo(){
-		self.position().down(1)
+	method bajar(){
+		self.position(self.position().down(1))
 	}
 	
-	method moverArriba(){
-		self.position().up(1)
+	method subir(){
+		self.position(self.position().up(1))
 	}
 	
-	method moverIzquierda(){
-		self.position().left(1)
+	method izquierda(){
+		self.position(self.position().left(1))
 	}
 	
-	method moverDerecha(){
-		self.position().right(1)
+	method derecha(){
+		self.position(self.position().right(1))
 	}
 	
 	method beber() {
